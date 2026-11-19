@@ -1,0 +1,89 @@
+{
+  "RQ1": {
+    "question": "How do teacher adaptation (Dense FT vs LoRA), KD strategy (output vs feature) and student adaptation (full-rank vs LoRA) affect student accuracy and training cost?",
+    "pipelines": {
+      "A": {
+        "teacher": "dense",
+        "kd": "output",
+        "student": "full_rank",
+        "description": "SSL teacher → dense FT → output KD → full-rank student"
+      },
+      "B": {
+        "teacher": "lora",
+        "kd": "output",
+        "student": "full_rank",
+        "description": "SSL teacher → LoRA FT → output KD → full-rank student"
+      },
+      "C": {
+        "teacher": "dense",
+        "kd": "feature",
+        "student": "full_rank",
+        "description": "SSL teacher → dense FT → feature KD → full-rank student"
+      },
+      "D": {
+        "teacher": "lora",
+        "kd": "feature",
+        "student": "full_rank",
+        "description": "SSL teacher → LoRA FT → feature KD → full-rank student"
+      },
+      "E": {
+        "teacher": "lora",
+        "kd": "output",
+        "student": "lora",
+        "description": "SSL teacher → LoRA FT → output KD → LoRA student"
+      }
+    },
+    "comparisons": {
+      "RQ1a": ["A", "B"],
+      "RQ1b": ["A", "C"],
+      "RQ1c": ["B", "D"],
+      "RQ1d": ["B", "E"]
+    }
+  },
+  "RQ2": {
+    "question": "Does distilling adapter representations outperform conventional intermediate-feature distillation when both teacher and student have LoRA adapters?",
+    "pipelines": {
+      "baseline": {
+        "teacher": "lora",
+        "kd": "feature",
+        "student": "lora",
+        "description": "Conventional intermediate-feature KD"
+      },
+      "lora_space": {
+        "teacher": "lora",
+        "kd": "lora_space",
+        "student": "lora",
+        "description": "LoRA-space feature KD (Ax / BAx)"
+      }
+    },
+    "comparisons": {
+      "RQ2": ["baseline", "lora_space"]
+    }
+  },
+  "RQ3": {
+    "question": "Which LoRA representation transfers knowledge more effectively: Ax, BAx, or both?",
+    "pipelines": {
+      "ax": {
+        "teacher": "lora",
+        "kd": "lora_ax",
+        "student": "lora",
+        "description": "Low-rank bottleneck Ax KD"
+      },
+      "bax": {
+        "teacher": "lora",
+        "kd": "lora_bax",
+        "student": "lora",
+        "description": "Adapter-output BAx KD"
+      },
+      "ax_bax": {
+        "teacher": "lora",
+        "kd": "lora_ax_bax",
+        "student": "lora",
+        "description": "Optional combined Ax + BAx KD"
+      }
+    },
+    "comparisons": {
+      "RQ3": ["ax", "bax", "ax_bax"]
+    }
+  }
+}

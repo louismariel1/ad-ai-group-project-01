@@ -1,0 +1,48 @@
+{
+  "version": "draft-v0.2",
+  "seed": 0,
+  "prototype": true,
+  "notes": "CIFAR-10/100 is the shared lab prototype only. Swap source_dataset/target_dataset (and image_size) when the larger dataset is agreed. Frozen splits and checkpoints must be regenerated; never overwrite v1.",
+  "source_dataset": "CIFAR10",
+  "target_dataset": "CIFAR100",
+  "future_source_dataset": "TBD_LARGE",
+  "future_target_dataset": "TBD_LARGE",
+  "image_size": 32,
+  "num_input_channels": 3,
+  "target_classes": [
+    "aquarium_fish",
+    "flatfish",
+    "ray",
+    "shark",
+    "trout"
+  ],
+  "target_train_fraction": 0.8,
+  "ssl_pretext": "rotation_prediction_4way",
+  "ssl_val_fraction": 0.1,
+  "teacher_architecture": "P3_ConvBackbone",
+  "student_architecture": "P3_ConvBackbone",
+  "backbone_output_size": 64,
+  "head_projection_size": 32,
+  "preprocessing": {
+    "normalize_mean": [0.5, 0.5, 0.5],
+    "normalize_std": [0.2, 0.2, 0.2]
+  },
+  "lora": {
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.2
+  },
+  "training": {
+    "ssl_epochs": 20,
+    "ssl_batch_size": 128,
+    "teacher_epochs": 20,
+    "student_epochs": 20,
+    "batch_size": 64,
+    "lr": 0.001,
+    "kd_temperature": 4.0,
+    "kd_alpha": 0.5,
+    "feature_kd_weight": 1.0
+  },
+  "checkpoint_format": "state_dict_plus_metadata",
+  "research_questions": ["RQ1", "RQ2", "RQ3"]
+}
