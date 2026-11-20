@@ -35,10 +35,12 @@ scripts/                setup, SSL, teachers, final plots
 
 ## Setup
 
+Environment with PyTorch, CUDA and lightning.
+Create and activate the Conda environment:
+
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate AML
 python scripts/init_layout.py
 python scripts/prepare_splits.py
 ```
