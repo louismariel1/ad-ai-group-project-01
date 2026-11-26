@@ -22,11 +22,12 @@ def main() -> None:
     parser.add_argument("--pipelines", nargs="+", default=PIPELINES, choices=PIPELINES)
     parser.add_argument("--ssl-ckpt", type=Path, default=SSL_CKPT_DIR / "teacher_ssl_v1.ckpt")
     parser.add_argument("--epochs", type=int, default=None)
+    parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
     ensure_layout()
     cfg = load_project_config()
-    epochs = args.epochs or cfg["training"]["student_epochs"]
+    epochs = cfg["training"]["student_epochs"] if args.epochs is None else args.epochs
     for name in args.pipelines:
         spec = pipeline_spec("RQ1", name)
         path = run_kd_pipeline(
@@ -37,6 +38,7 @@ def main() -> None:
             kd_type=spec["kd"],
             ssl_ckpt=args.ssl_ckpt,
             epochs=epochs,
+            overwrite=args.overwrite,
         )
         print("Wrote", path)
 

@@ -8,3 +8,5 @@ Both arms use a LoRA teacher and a LoRA student. Only the feature location chang
 ```bash
 python experiments/RQ2/run.py
 ```
+
+Both arms use the shared fixed seed, split manifests, config, and metrics schema. Existing outputs are not replaced unless `--overwrite` is passed.

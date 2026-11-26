@@ -30,6 +30,10 @@ class TrainingMetrics:
         self.step = 0
         self.epoch = 0
         self.epoch_steps = [0]
+        self.training_time_seconds: float | None = None
+        self.peak_cuda_memory_bytes: int | None = None
+        self.total_parameters: int | None = None
+        self.trainable_parameters: int | None = None
         self.fig = None
         self.plot_axes = None
 
@@ -67,6 +71,10 @@ class TrainingMetrics:
             "val_acc": self.val_acc,
             "epoch_steps": self.epoch_steps,
             "best_val_acc": self.best_val_acc,
+            "training_time_seconds": self.training_time_seconds,
+            "peak_cuda_memory_bytes": self.peak_cuda_memory_bytes,
+            "total_parameters": self.total_parameters,
+            "trainable_parameters": self.trainable_parameters,
         }
 
     @classmethod
@@ -79,6 +87,10 @@ class TrainingMetrics:
         metrics.epoch_steps = list(payload["epoch_steps"])
         metrics.step = len(metrics.train_loss)
         metrics.epoch = max(len(metrics.val_acc), 0)
+        metrics.training_time_seconds = payload.get("training_time_seconds")
+        metrics.peak_cuda_memory_bytes = payload.get("peak_cuda_memory_bytes")
+        metrics.total_parameters = payload.get("total_parameters")
+        metrics.trainable_parameters = payload.get("trainable_parameters")
         return metrics
 
     def plot(

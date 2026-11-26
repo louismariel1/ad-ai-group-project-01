@@ -10,3 +10,5 @@ Same LoRA teacher/student pair as RQ2. Only the distilled LoRA representation ch
 python experiments/RQ3/run.py --pipelines ax bax
 python experiments/RQ3/run.py --pipelines ax_bax
 ```
+
+All arms use the shared fixed seed, split manifests, config, and metrics schema. Existing outputs are not replaced unless `--overwrite` is passed.

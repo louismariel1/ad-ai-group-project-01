@@ -20,15 +20,16 @@ def main() -> None:
     parser.add_argument("--ssl-ckpt", type=Path, default=SSL_CKPT_DIR / "teacher_ssl_v1.ckpt")
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--kinds", nargs="+", default=["dense", "lora"])
+    parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
     ensure_layout()
     cfg = load_project_config()
-    epochs = args.epochs or cfg["training"]["teacher_epochs"]
+    epochs = cfg["training"]["teacher_epochs"] if args.epochs is None else args.epochs
     if not args.ssl_ckpt.exists():
         raise FileNotFoundError(f"Train SSL first: missing {args.ssl_ckpt}")
     for kind in args.kinds:
-        path = adapt_teacher(kind, cfg, args.ssl_ckpt, epochs=epochs)
+        path = adapt_teacher(kind, cfg, args.ssl_ckpt, epochs=epochs, overwrite=args.overwrite)
         print("Saved teacher:", path)
 
 

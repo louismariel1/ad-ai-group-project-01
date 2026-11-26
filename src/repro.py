@@ -6,8 +6,8 @@ import random
 # Avoid OpenMP duplicate-runtime crashes on some Windows Anaconda installs.
 os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
 
-import numpy as np
 import torch
+import numpy as np
 
 
 def set_seed(seed: int) -> None:

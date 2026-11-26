@@ -16,3 +16,5 @@ Comparisons: **1a** A vs B · **1b** A vs C · **1c** B vs D · **1d** B vs E.
 python experiments/RQ1/run.py --pipelines A B
 python experiments/RQ1/run.py --pipelines C D E
 ```
+
+Runs use the shared fixed seed, split manifests, config, and metrics schema. Existing outputs are not replaced unless `--overwrite` is passed.
